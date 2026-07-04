@@ -1,0 +1,16 @@
+{
+  "name": "ridbf_demo",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "build": "bun build ./src/*.ts --outdir ./dist",
+    "dev": "bun build ./src/*.ts --outdir ./dist --watch"
+  },
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^6.0.3"
+  }
+}
