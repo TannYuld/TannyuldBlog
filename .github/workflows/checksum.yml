@@ -1,0 +1,29 @@
+name: Generate File Checksum
+
+on:
+  push:
+    paths:
+      - 'docs/blogpost.ridb' 
+
+jobs:
+  checksum:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Calculate SHA-256
+        run: |
+          sha256sum docs/blogpost.ridb > docs/blogpost.ridbi
+          echo "Generated Checksum: $(cat docs/blogpost.ridbi)"
+
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          
+          git add docs/blogpost.ridbi
+          
+          git diff-index --quiet HEAD || git commit -m "chore: auto-update SHA-256 checksum [skip ci]"
+          git push
