@@ -1,0 +1,32 @@
+This is my first blogpost using ridbf!
+2026-6-4
+[First,TS,js,ridb]
+This is my first blogpost using ridb package built with ts. 
+And the best part of it it support multiline fields. [\]
+But it does not support complex types like .md or images. [\]
+Maybe on a day which I am not lazy, I will implement it.[\]
+Second post#2
+2026-06-04
+
+This is just to demonstrate with ridb, so this post isn't that important. It is so insignificant that I didn't even add any tags.
+Third demo post#3
+2026-06-04
+[Demo]
+This demo is to demonstrate, how html elements are renderd inside an actual html page. So here are some nice tips about hobby gardening.
+<p>Spring is here again, and that means it is time to get back out into the garden. Over the years I have picked up a handful of habits that make a real difference, so I thought I would gather my favorites into a single list.</p>[\]
+[\]
+<h2>The List</h2>[\]
+<ol>[\]
+<li>Test your soil before planting anything.</li>[\]
+<li>Water in the early morning to reduce evaporation.</li>[\]
+<li>Mulch generously to retain moisture and suppress weeds.</li>[\]
+<li>Rotate crops each season to keep the soil healthy.</li>[\]
+<li>Choose plants suited to your local climate.</li>[\]
+<li>Prune dead or damaged growth regularly.</li>[\]
+<li>Attract pollinators with a mix of flowering plants.</li>[\]
+<li>Avoid overwatering; check soil moisture with your finger first.</li>[\]
+<li>Compost kitchen scraps to enrich your soil naturally.</li>[\]
+<li>Be patient &mdash; most gardens take a few seasons to hit their stride.</li>[\]
+</ol>[\]
+[\]
+<p>None of these tips are complicated on their own, but together they add up to a garden that is healthier and easier to maintain. Happy planting!</p>[\]
