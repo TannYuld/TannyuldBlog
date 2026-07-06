@@ -308,7 +308,7 @@ async function fetchDataIfIntegrityNotMatch() {
 }
 function setBlogs(blogs) {
   blogs.sort((left, right) => {
-    return left.date.getTime() - right.date.getTime();
+    return right.date.getTime() - left.date.getTime();
   });
   const newJSON = JSON.stringify(blogs);
   const cachedJSON = localStorage.getItem(BLOGPOST_KEY);

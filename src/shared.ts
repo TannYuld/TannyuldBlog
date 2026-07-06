@@ -43,7 +43,7 @@ export async function fetchDataIfIntegrityNotMatch() {
 
 export function setBlogs(blogs: BlogPost[]) {
     blogs.sort((left, right) => {
-        return left.date.getTime() - right.date.getTime();
+        return right.date.getTime() - left.date.getTime();
     });
 
     const newJSON = JSON.stringify(blogs);
