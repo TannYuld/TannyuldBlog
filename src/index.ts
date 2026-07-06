@@ -1,19 +1,19 @@
-import { IDBHandle } from "ridbf";
-import { BlogPostSchema, type BlogPost } from "./types";
+import { fetchDataIfIntegrityNotMatch, getBlogs, retrieveData, subscribeBlogPostsChanges, type BlogPost } from "./shared";
 
-const allBlogs: BlogPost[] = [];
+addEventListener("load", (_) => {
+    subscribeBlogPostsChanges(whenBlogPostsChange);
+    retrieveData();
+    fetchDataIfIntegrityNotMatch();
+})
 
-addEventListener("load", async (_) => {    
-    const handle = IDBHandle.open("blogpost", BlogPostSchema);
-    await handle.retrieve();
-    (await handle.findAll()).forEach((post) => {
-        allBlogs.push(post);
+function whenBlogPostsChange() {
+    document.querySelectorAll(".post").forEach(element => {
+        element.remove();
     });
-    
-    allBlogs.forEach((post, idx) => {
+    getBlogs().forEach((post, idx) => {
         document.body.insertAdjacentHTML('beforeend', blogpostToRawHtml(post, idx));
     });
-})
+}
 
 function blogpostToRawHtml(post: BlogPost, idx: number): string {
     let rawHTML =
@@ -35,7 +35,7 @@ function blogpostToRawHtml(post: BlogPost, idx: number): string {
     rawHTML = rawHTML.replace("$2", post.title);
     if (post.tags) {
         rawHTML = rawHTML.replace("$3", post.tags.join(", "));
-    }else {
+    } else {
         rawHTML = rawHTML.replace(`<p class="post-tags">Tags: $3</p>`, "");
     }
     rawHTML = rawHTML.replace("$4", post.content.slice(0, 146));
