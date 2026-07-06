@@ -329,18 +329,16 @@ function subscribeBlogPostsChanges(proces) {
 
 // src/post.ts
 var id;
-addEventListener("load", (_) => {
-  const params = new URLSearchParams(window.location.search);
-  const maybeId = params.get("id");
-  if (maybeId === null) {
-    window.location.replace("index.html");
-    return;
-  }
+var params = new URLSearchParams(window.location.search);
+var maybeId = params.get("id");
+if (maybeId === null) {
+  window.location.replace("index.html");
+} else {
   id = Number(maybeId);
   subscribeBlogPostsChanges(whenBlogPostsChange);
   retrieveData();
   fetchDataIfIntegrityNotMatch();
-});
+}
 function whenBlogPostsChange() {
   if (id > getBlogs().length) {
     window.location.replace("index.html");

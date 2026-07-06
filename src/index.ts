@@ -1,10 +1,8 @@
 import { fetchDataIfIntegrityNotMatch, getBlogs, retrieveData, subscribeBlogPostsChanges, type BlogPost } from "./shared";
 
-addEventListener("load", (_) => {
-    subscribeBlogPostsChanges(whenBlogPostsChange);
-    retrieveData();
-    fetchDataIfIntegrityNotMatch();
-})
+subscribeBlogPostsChanges(whenBlogPostsChange);
+retrieveData();
+fetchDataIfIntegrityNotMatch();
 
 function whenBlogPostsChange() {
     document.querySelectorAll(".post").forEach(element => {

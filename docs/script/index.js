@@ -328,11 +328,9 @@ function subscribeBlogPostsChanges(proces) {
 }
 
 // src/index.ts
-addEventListener("load", (_) => {
-  subscribeBlogPostsChanges(whenBlogPostsChange);
-  retrieveData();
-  fetchDataIfIntegrityNotMatch();
-});
+subscribeBlogPostsChanges(whenBlogPostsChange);
+retrieveData();
+fetchDataIfIntegrityNotMatch();
 function whenBlogPostsChange() {
   document.querySelectorAll(".post").forEach((element) => {
     element.remove();

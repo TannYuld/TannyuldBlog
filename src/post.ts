@@ -1,20 +1,17 @@
 import { fetchDataIfIntegrityNotMatch, getBlogs, retrieveData, subscribeBlogPostsChanges, type BlogPost } from "./shared";
 
 let id: number;
-
-addEventListener("load", (_) => {
-    const params = new URLSearchParams(window.location.search);
-    const maybeId = params.get('id');
-    if (maybeId === null) {
-        window.location.replace("index.html");
-        return;
-    }
+const params = new URLSearchParams(window.location.search);
+const maybeId = params.get('id');
+if (maybeId === null) {
+    window.location.replace("index.html");
+}else {
     id = Number(maybeId);
-
+    
     subscribeBlogPostsChanges(whenBlogPostsChange);
     retrieveData();
     fetchDataIfIntegrityNotMatch();
-})
+}
 
 function whenBlogPostsChange() {
     if (id > getBlogs().length) {
