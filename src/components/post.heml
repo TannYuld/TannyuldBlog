@@ -1,0 +1,86 @@
+<!DOCTYPE component>
+<properties>
+    <attribute name="post" />
+    <attribute name="goBackFunc" />
+</properties>
+<component>
+    <style scoped>
+        h1 {
+            font-size: 26px;
+            margin-bottom: 6px;
+            color: #f0f0f0;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #333333;
+            margin-bottom: 25px;
+        }
+
+        article {
+            text-align: justify;
+        }
+
+        article p {
+            margin-bottom: 16px;
+            font-size: 15px;
+        }
+
+        article h2 {
+            font-size: 19px;
+            color: #f0f0f0;
+            margin-top: 28px;
+            margin-bottom: 10px;
+        }
+
+        article ol {
+            margin: 0 0 16px 0;
+            padding-left: 22px;
+        }
+
+        article li {
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+    </style>
+    <style>
+        article code {
+            background-color: #2d2d2d;
+            color: #e6e6e6;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+    </style>
+
+    <h1 id="post-title">
+        <value name="{post.value.title}" />
+    </h1>
+    <p id="post-byline" class="byline">
+        Posted on
+        <span id="post-date">
+            <value name="{() => post.value.date.toLocaleDateString('en-NL',{
+                    day: '2-digit',
+                    month: 'long',
+                    year: 'numeric'
+                })}" />
+        </span>
+        &mdash; Tags:
+        <span id="post-tags">
+            <value name="{() => post.value.tags.join(', ')}" />
+        </span>
+    </p>
+
+    <hr>
+
+    <article id="article">
+        <script>
+            const article = document.getElementById('article');
+            article.innerHTML = post.value.content;
+            console.log(post.value.content);
+        </script>
+    </article>
+
+    <a onclick="{(goBackFunc.value)()}" class="back-link">&larr; Back to all posts</a>
+</component>

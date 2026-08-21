@@ -277,10 +277,8 @@ class RIDBHandle {
   }
 }
 
-// src/shared.ts
+// src/script/shared.ts
 var BLOGPOST_KEY = "blogposts";
-var allBlogs = [];
-var blogChangeListeners = [];
 var BlogPostSchema = [
   { title: { unique: false } },
   "date",
@@ -290,7 +288,7 @@ var BlogPostSchema = [
 function retrieveData() {
   const retrievedData = localStorage.getItem(BLOGPOST_KEY);
   if (retrievedData === null) {
-    return;
+    return [];
   }
   const result = JSON.parse(retrievedData);
   result.map((post) => {
@@ -299,38 +297,19 @@ function retrieveData() {
     }
     return post;
   });
-  setBlogs(result);
+  return result;
 }
 async function fetchDataIfIntegrityNotMatch() {
   const handle = RIDBHandle.open("blogpost", BlogPostSchema, { dataCache: CacheType.NoCache, integrityCache: CacheType.NoCache });
   await handle.fetch();
-  setBlogs(await handle.findAll());
-}
-function setBlogs(blogs) {
-  blogs.sort((left, right) => {
-    return right.date.getTime() - left.date.getTime();
-  });
-  const newJSON = JSON.stringify(blogs);
-  const cachedJSON = localStorage.getItem(BLOGPOST_KEY);
-  if (newJSON === cachedJSON && allBlogs.length > 0) {
-    return;
+  const result = await handle.findAll();
+  if (result !== undefined || result !== null) {
+    localStorage.setItem(BLOGPOST_KEY, JSON.stringify(result));
   }
-  allBlogs.splice(0, allBlogs.length);
-  blogs.forEach((blog) => allBlogs.push(blog));
-  blogChangeListeners.forEach((subscriber) => subscriber());
-  localStorage.setItem(BLOGPOST_KEY, JSON.stringify(allBlogs));
-}
-function getBlogs() {
-  return allBlogs;
-}
-function subscribeBlogPostsChanges(proces) {
-  blogChangeListeners.push(proces);
+  return result;
 }
 export {
-  subscribeBlogPostsChanges,
-  setBlogs,
   retrieveData,
-  getBlogs,
   fetchDataIfIntegrityNotMatch,
   BlogPostSchema
 };

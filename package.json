@@ -3,8 +3,8 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
-    "build": "bun build ./src/*.ts --outdir ./docs/script",
-    "dev": "bun build ./src/*.ts --outdir ./dist --watch"
+    "build": "bun build ./src/script/*.ts --outdir ./docs/script",
+    "dev": "bun build ./src/script/*.ts --outdir ./docs/script --watch"
   },
   "private": true,
   "devDependencies": {

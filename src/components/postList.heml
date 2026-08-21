@@ -1,0 +1,33 @@
+<!DOCTYPE component>
+<properties>
+    <attribute name="posts" />
+    <attribute name="onPostClick" />
+</properties>
+<component>
+    <h1>My Amazing Blog</h1>
+    <h2 class="subtitle">Blogposts</h2>
+    <hr>
+
+    <for each="{posts}" as="post" index="i" key="{post.id}">
+        <a onclick="{(onPostClick.value)(i)}" class="post">
+            <span class="post-date">
+                <value name="{() => 
+                post.date.toLocaleDateString('en-NL',{
+                    day: '2-digit',
+                    month: 'long',
+                    year: 'numeric'
+                })}" />
+            </span>
+            <p class="post-title">
+                <value name="{post.title}" />
+            </p>
+            <p class="post-tags">Tags:
+                <value name="{() => post.tags.join(', ')}" />
+            </p>
+            <p class="post-preview">
+                <value name="{() => post.content.slice(0, 146)}" />...
+            </p>
+            <span class="read-more">&raquo; Continue reading</span>
+        </a>
+    </for>
+</component>
