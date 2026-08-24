@@ -12,6 +12,8 @@
     <import src="./components/postList.heml" as="postlist" />
     <import src="./components/about.heml" as="about" />
     <import src="./components/post.heml" as="post" />
+    <import src="./components/router.heml" as="router" />
+    <import src="./components/route.heml" as="route" />
     <style>
         h2.subtitle {
             font-size: 15px;
@@ -34,15 +36,18 @@
 </head>
 
 <body>
-    <var name="goHomeFunc" value="{() => selectedPage.value = 'home'}" />
+    <var name="navigateFunc" />
+
     <var name="onPostClick" value="{(id) => {
+        if (id >= blogPosts.value.length) {
+            selectedPost.value = null;
+        }else {
             selectedPost.value = blogPosts.value[id];
-            selectedPage.value = 'post'; 
-        }}" />
+        }
+        (navigateFunc.value)('post', `&bp=${id}`)
+    }}" />
 
     <var name="blogPosts" value="{[]}" />
-
-    <var name="selectedPage" value="home" />
     <var name="selectedPost" value="{null}" />
 
     <div class="site-header">
@@ -50,38 +55,35 @@
             <img class="site-name-photo" src="./media/KenzouTenma.webp" />
         </span>
         <span class="site-nav">
-            <a onclick="{selectedPage.value = 'home'}">Home</a>
-            <a onclick="{selectedPage.value = 'about'}">About</a>
+            <a onclick="{(navigateFunc.value)('home')}">Home</a>
+            <a onclick="{(navigateFunc.value)('about')}">About</a>
         </span>
     </div>
 
-    <match value="{selectedPage.value}">
-        <arm expr="about">
-            <about />
-        </arm>
-        <arm expr="post">
+    <router navigateFunc="{navigateFunc}">
+        <router:home>
+            <postlist posts="{blogPosts}" onPostClick="{onPostClick}" />
+        </router:home>
+        <router:404>
+            <h1>404 - Page Not Found</h1>
+            <a onclick="{(navigateFunc.value)('home')}" class="back-link">&larr; Back to all posts</a>
+        </router:404>
+
+        <route name="post">
             <if condition="{selectedPost.value !== null}">
-                <post post="{selectedPost}" goBackFunc="{goHomeFunc}" />
+                <post post="{selectedPost}" goBackFunc="{() => (navigateFunc.value)('home')}" />
             </if>
             <else>
-                <script>
-                    (goHomeFunc.value)()
-                </script>
+                <h1>404 - Blog Post Not Found</h1>
+                <p style="margin: 10px 0 20px 0; color: #999;">The post you are looking for doesn't exist or was
+                    removed.</p>
+                <a onclick="{(navigateFunc.value)('home')}" class="back-link">&larr; Back to all posts</a>
             </else>
-        </arm>
-        <arm default>
-            <postlist posts="{blogPosts}" onPostClick="{onPostClick}" />
-        </arm>
-    </match>
-
-    <script>
-        const queryString = window.location.search;
-        const urlParams = new URLSearchParams(queryString);
-        const page = urlParams.get('p');
-        if (page !== null) {
-            selectedPage.value = page;
-        }
-    </script>
+        </route>
+        <route name="about">
+            <about />
+        </route>
+    </router>
 
     <script async type="module">
         const { retrieveData, fetchDataIfIntegrityNotMatch } = await import('./script/shared.js');
@@ -91,13 +93,12 @@
         const queryStringInAsyncBlock = window.location.search;
         const urlParamsInAsyncBlock = new URLSearchParams(queryStringInAsyncBlock);
         const blogpost = urlParamsInAsyncBlock.get('bp');
-        if (blogpost !== null && selectedPage.value === 'home') {
+        if (blogpost !== null && queryStringInAsyncBlock.includes('p=post')) {
             (onPostClick.value)(blogpost);
         }
 
         blogPosts.value = await fetchDataIfIntegrityNotMatch();
     </script>
-
 </body>
 
 </html>

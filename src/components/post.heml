@@ -78,7 +78,6 @@
         <script>
             const article = document.getElementById('article');
             article.innerHTML = post.value.content;
-            console.log(post.value.content);
         </script>
     </article>
 

@@ -4,11 +4,12 @@
   "type": "module",
   "scripts": {
     "build": "bun build ./src/script/*.ts --outdir ./docs/script",
-    "dev": "bun build ./src/script/*.ts --outdir ./docs/script --watch"
+    "dev": "concurrently \"bun build ./src/script/*.ts --outdir ./docs/script --watch\" \"hemlc ./src/ --out ./docs/ --watch\""
   },
   "private": true,
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "concurrently": "^10.0.5"
   },
   "peerDependencies": {
     "typescript": "^6.0.3"
